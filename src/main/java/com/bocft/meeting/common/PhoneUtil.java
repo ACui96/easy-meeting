@@ -36,7 +36,7 @@ public class PhoneUtil {
         try{
             // 实例化一个认证对象，入参需要传入腾讯云账户secretId，secretKey,此处还需注意密钥对的保密
             // 密钥可前往https://console.cloud.tencent.com/cam/capi网站进行获取
-            Credential cred = new Credential("AKIDfBQSEjxub1A3g27uRhgOBiywd4D5g03p", "WljQqzsUpseAPM2SaR1KN9ersd7KGuHN");
+            Credential cred = new Credential("yoursecretid", "yoursecretkey");
             // 实例化一个http选项，可选的，没有特殊需求可以跳过
             HttpProfile httpProfile = new HttpProfile();
             httpProfile.setEndpoint("sms.tencentcloudapi.com");
