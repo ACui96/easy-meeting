@@ -13,8 +13,8 @@
         FROM t_attendees a,t_user u,t_dept d
         where a.a_cid=#{conId} and u.user_id=a.a_uid and d.dept_id=u.u_dept_id
     </select>
-    <resultMap id="hashMap" type="java.util.Map">
-        <result property="key" column="u_phone"/>
-        <result property="value" column="u_name"/>
-    </resultMap>
+<!--    <resultMap id="hashMap" type="java.util.Map">-->
+<!--        <result property="key" column="u_phone"/>-->
+<!--        <result property="value" column="u_name"/>-->
+<!--    </resultMap>-->
 </mapper>

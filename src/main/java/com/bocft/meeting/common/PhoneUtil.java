@@ -50,8 +50,10 @@ public class PhoneUtil {
 //            String[] phoneNumberSet1 = {phone};
             req.setPhoneNumberSet(phoneNumberSet1);
 
-            req.setSmsSdkAppId("1400704753");
-            req.setSignName("崔现增公众号");
+            //replace smsSdkAppid with yours
+            req.setSmsSdkAppId("SmsSdkAppId");
+            // replace SignName with yours
+            req.setSignName("SignName");
 
             req.setTemplateId(templateId);
             req.setTemplateParamSet(templateParamSet);
