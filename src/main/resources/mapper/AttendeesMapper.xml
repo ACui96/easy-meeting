@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocft.meeting.mapper.AttendeesMapper">
+    <select id="selectAttendeesPhonesByConId" resultType="java.lang.String">
+        SELECT u_phone from t_user
+        WHERE user_id in (
+            SELECT a_uid FROM `t_attendees` WHERE a_cid=#{aCId} and a_ustatus=1);
+    </select>
+
+    <select id="selectAttendeesByConferenceId" resultType="com.bocft.meeting.vo.AttendeesVo">
+        SELECT a.a_id,u.u_name,u.u_phone,d.d_name,case when a_msg_status=1 then '未通知' else '已通知' end msg
+        FROM t_attendees a,t_user u,t_dept d
+        where a.a_cid=#{conId} and u.user_id=a.a_uid and d.dept_id=u.u_dept_id
+    </select>
+    <resultMap id="hashMap" type="java.util.Map">
+        <result property="key" column="u_phone"/>
+        <result property="value" column="u_name"/>
+    </resultMap>
+</mapper>

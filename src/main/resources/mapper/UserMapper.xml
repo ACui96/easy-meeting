@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocft.meeting.mapper.UserMapper">
+
+
+
+    <update id="updateUser" parameterType="com.bocft.meeting.model.User">
+        UPDATE t_user
+        <set>
+            <if test="uMail != null">
+                u_mail = #{uMail},
+            </if>
+
+            <if test="uPhone != null">
+                u_phone = #{uPhone},
+            </if>
+            <if test="uVerify != null">
+                u_verify = #{uVerify},
+            </if>
+            <if test="uPwd != null">
+                u_pwd = #{uPwd},
+            </if>
+            update_time=#{updateTime}
+        </set>
+
+        WHERE
+        user_id=#{userId}
+    </update>
+
+    <delete id="delUser" parameterType="java.lang.Integer">
+        DELETE
+        FROM t_user
+        WHERE user_id = #{userId}
+    </delete>
+
+    <select id="selectUserByName" parameterType="java.lang.String" resultType="com.bocft.meeting.vo.UserInforVo">
+        SELECT user_id,u_name,u_mail,d_name
+        FROM t_user u,t_dept d
+        <where>
+            u.u_dept_id = d.dept_id
+            --             防止sql注入
+            <if test="name!=null">
+                and u_name like concat('%',#{name},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="countByDeptId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select count(*) from t_user where u_dept_id = #{deptId}
+    </select>
+
+</mapper>

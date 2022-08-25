@@ -1,0 +1,55 @@
+server:
+  port: 8080
+  #log
+  servlet:
+    context-path: /path
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml
+  #email
+spring:
+  mail:
+    #smtp服务主机
+    host: smtp.163.com
+    #服务协议
+    protocol: smtp
+    # 编码集
+    default-encoding: UTF-8
+    #发送邮件的账户
+    username: xuzhe0402@163.com
+    #授权码
+    password: UXDLSFHQATLCKZSS
+    test-connection: true
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  #mysql
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.30.66.253:3306/sled_dev?characterEncoding=utf-8&useSSL=false
+    username: sled
+    password: Sled_1234
+    #time
+  jackson:
+    time-zone: GMT+8
+  #redis
+  redis:
+    host: 172.30.66.6
+    port: 6379
+    database: 0
+    timeout: 180000
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+# 是否开启redis缓存  true开启   false关闭
+meeting:
+  redis:
+    open: true

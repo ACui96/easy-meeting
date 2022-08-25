@@ -1,0 +1,7 @@
+<configuration>
+    <!-- 此xml在spring-boot-2.2.1.RELEASE.jar里 输出等级为INFO-->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <jmxConfigurator/>
+    <!--日志保存在D:/q/meeting/log-->
+    <property name="log.path" value="D:/1/meeting/log" />
+</configuration>

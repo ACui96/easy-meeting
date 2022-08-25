@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bocft.meeting.mapper.ConferenceMapper">
+    <update id="updateOldCon">
+        UPDATE t_conference_rel
+        SET `status`=3
+        WHERE `status` = 1
+          and (c_date &lt; now() or (c_date = NOW() and c_begin_time &lt; NOW()))
+    </update>
+
+    <select id="selectIndexByDate" resultType="com.bocft.meeting.vo.NoTimeConferenceVo">
+        SELECT c.con_id, c.c_begin_time, c.c_end_time, r.b_name, r.b_type
+
+        from (SELECT room.b_name, room.b_type from t_board_room room) r
+                 LEFT JOIN
+             t_conference_rel c
+             on
+                         r.b_name = c.b_name
+                     and
+                         c.c_date=#{cDate};
+    </select>
+
+<!--   左连接  未预约的房间也需要显示出-->
+    <select id="selectRoomByDate" resultType="com.bocft.meeting.vo.TimeConferenceVo">
+        SELECT c.con_id,r.room_id,r.b_name,r.capacities,r.b_location,c.c_begin_time,c.c_end_time,c.status
+
+        from t_board_room r
+                 LEFT JOIN
+             t_conference_rel c
+             on
+                         r.room_id=c.room_id
+                     and
+                         c.c_date=#{cDate}
+                     and (c.status = 1 or c.status = 2);
+    </select>
+
+
+    <select id="selectNumByRoomID" resultType="com.bocft.meeting.vo.NameNumber">
+        SELECT b_name as name,count(*) as number
+        FROM t_conference_rel
+        WHERE status = 2
+            and DATE_SUB(CURDATE(), INTERVAL #{id} DAY) &lt;= date(c_date)
+            and date(c_date) &lt;= now()
+        group by room_id
+        order by number DESC LIMIT 0,7
+
+    </select>
+
+    <select id="selectNumByUserID" resultType="com.bocft.meeting.vo.NameNumber">
+        SELECT u_name as name,count(*) as number
+        FROM t_conference_rel
+        WHERE status = 2
+            and DATE_SUB(CURDATE(), INTERVAL #{id} DAY) &lt;= date(c_date)
+            and date(c_date) &lt;= now()
+        group by user_id
+        order by number DESC LIMIT 0,7
+
+    </select>
+
+    <select id="selectByTime" resultType="com.bocft.meeting.vo.RoomVo">
+        SELECT room_Id,b_type,b_name,b_remark,capacities
+        FROM t_board_room b
+        WHERE room_id not in
+            (SELECT room_id
+            FROM t_conference_rel c
+            WHERE status = 2
+                and c_date = STR_TO_DATE(#{date},'%Y-%m-%d')
+                and c_begin_time &lt;= STR_TO_DATE(#{end},'%H:%i:%s')
+                and c_end_time &gt;= STR_TO_DATE(#{begin},'%H:%i:%s'))
+    </select>
+</mapper>
