@@ -1,6 +1,5 @@
 # Meeting Room Reservation and Approval System 会议室预定与审批系统 - 后台服务
 
-[详细设计说明书地址](https://docs.qq.com/doc/DWENEdklQTVVOa21r?&u=e0173ccfdcdb49d59bd3db988b1e9f61)
 
 
 后端接口开发进展
